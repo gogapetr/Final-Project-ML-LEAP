@@ -9,7 +9,7 @@
 # We start with the imports. This cell loads everything the notebook needs, 
 # so we run it once at the top.
 
-import numpy as np
+import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -48,7 +48,7 @@ print("Positive rate (share earning >50K):", round(y.mean(), 3))
 
 ## train and test split
 # We split the data into a training set and a test set before doing anything else, and 
-# we keep the class balance with stratify. Both models are  trained on the training set 
+# we keep the class balance with stratify. Both models are trained on the training set 
 # and judged on the same held-back test set, so the comparison is fair.
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -74,5 +74,5 @@ print("Categorical features:", categorical_features)
     # which households belond in a higher-income bracket, so that a benefit ot 
     # outreach programme can be targeted. 
     
-    # first time making a python script, kinda nervous (˶˃ ᵕ ˂˶)
+
 

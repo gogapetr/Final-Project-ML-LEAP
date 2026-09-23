@@ -1,6 +1,6 @@
   # Part A. Setup and data
   # This first part was provided for the purpose of this final project. 
-  # It handlse the import, the download, the target encoding, the train 
+  # It handles the import, the download, the target encoding, the train 
   # and test split, and the detection of which columns are numeric and 
   # which are categorical.
 

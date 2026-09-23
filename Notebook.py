@@ -1,4 +1,3 @@
-
   # Part A. Setup and data
   # This first part was provided for the purpose of this final project. 
   # It handlse the import, the download, the target encoding, the train 
@@ -6,6 +5,7 @@
   # which are categorical.
   
   ## loading everything we will need
+
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,6 +19,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, LabelEncoder
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (accuracy_score, f1_score,
                              confusion_matrix, ConfusionMatrixDisplay)
+                            
 
 import keras
 from keras import layers

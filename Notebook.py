@@ -74,5 +74,43 @@ print("Categorical features:", categorical_features)
     # which households belond in a higher-income bracket, so that a benefit ot 
     # outreach programme can be targeted. 
     
+# Build the preprocessor with a ColumnTransformer.
+#
+# For the NUMERIC columns, chain two steps in a Pipeline:
+#   - SimpleImputer to fill missing values (strategy="median" is sensible here)
+#   - StandardScaler to put the features on the same scale
+
+numeric_pipe = Pipeline([
+    ("imputer", SimpleImputer(strategy="median")),
+    ("scaler", StandardScaler()),
+])
+
+# For the CATEGORICAL columns, chain two steps in a Pipeline:
+#   - SimpleImputer to fill missing values (strategy="most_frequent")
+#   - OneHotEncoder to turn categories into numbers. Set
+#       handle_unknown="ignore" so unseen categories in the test set do not error
+#       sparse_output=False so the result is a plain array the network can use later
+
+categorical_pipe = Pipeline([
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("onehot", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
+])
+
+# Then combine the two with a ColumnTransformer, applying each pipeline
+# to its own list of columns (numeric_features and categorical_features).
+
+preprocess = ColumnTransformer(
+    transformers=[
+        ("num", numeric_pipe, numeric_features),
+        ("categ", categorical_pipe, categorical_features),
+        ],
+        remainder="drop",
+)
+
+# Combine the preprocessor and a LogisticRegression into one Pipeline,
+# so that preprocessing is fitted only on the training data inside each fold.
+# LogisticRegression(max_iter=1000) gives it enough iterations to converge.
+#
+# TODO: define clf as a Pipeline with two steps, "preprocess" and "model".
 
 

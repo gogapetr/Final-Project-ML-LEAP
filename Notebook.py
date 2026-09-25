@@ -37,7 +37,7 @@ X, y = fetch_openml("adult", version=2, as_frame=True, return_X_y=True)
 
 print("Rows and columns:", X.shape)
 print("Target values:", y.value_counts().to_dict())
-X.head()
+print(X.head())
 
 ## encoding the target
     # The target is text with two values. I convert it to numbers so both models
@@ -162,7 +162,9 @@ ConfusionMatrixDisplay.from_predictions(
 )
 
 plt.title("Confusion Matrix - Logistic Regression")
-plt.show()
+plt.show(block=False)
+plt.pause(1)
+plt.close()
 
 ## Part C. The neural network
 
@@ -210,7 +212,7 @@ net.summary()
 # Compiling net with:
     # optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
 # Then training it with:
-    # validation_split=0.1, an EarlyStopping callback (monitor "val_loss",
+    # an explicit 10% validation set, an EarlyStopping callback (monitor "val_loss",
     # patience about 3, restore_best_weights=True), up to about 20 epochs,
     # and batch_size=128. Store the result in history.
 

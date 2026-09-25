@@ -110,7 +110,6 @@ preprocess = ColumnTransformer(
 # I combine the preprocessor and a LogisticRegression into one Pipeline,
 # so that preprocessing is fitted only on the training data inside each fold.
 # LogisticRegression(max_iter=1000) gives it enough iterations to converge.
-.
 
 pipe = Pipeline([
     ("preprocess", preprocess),
@@ -149,8 +148,8 @@ pipe.fit(
 )
 y_predict = pipe.predict(X_test)
 
-clf_acc = accuracy_score(y_test, y_predict).round(4)
-clf_f1 = f1_score(y_test, y_predict).round(4)
+clf_acc = round(accuracy_score(y_test, y_predict), 4)
+clf_f1 = round(f1_score(y_test, y_predict), 4)
 
 print("Accuracy:", clf_acc)
 print("F1 score:", clf_f1)
@@ -164,3 +163,30 @@ ConfusionMatrixDisplay.from_predictions(
 
 plt.title("Confusion Matrix - Logistic Regression")
 plt.show()
+
+## Part C. The neural network
+
+# Before building the neural network, make a prediction.
+    # Do you expect its F1 score to be higher than, lower than, 
+    # or similar to that of logistic regression? Do you expect a large or
+    # a small difference? Briefly explain your reasoning.
+
+    # MY PREDICTION: I expect the F1 score to be similar to that of logistic
+    # regression, with only a small difference. Logistic regression is already a
+    # strong baseline for this tabular data after numeric scaling and categorical
+    # one-hot encoding. The neural network may learn some nonlinear interactions,
+    # but its improvement is unlikely to be large because the input representation
+    # and the underlying task are well suited to a linear model.
+
+
+# A neural network needs a plain numeric array as input, so we apply the 
+# preprocessor to turn the mixed table into numbers. We fit the preprocess
+# or on the training data only, then transform both sets, 
+# so no information leaks from the test set.
+
+# Turn the tables into numeric arrays the network can read.
+#   X_train_prep = preprocess.fit_transform(X_train)   # fit on training data only
+#   X_test_prep  = preprocess.transform(X_test)         # reuse the same fitting
+# Then print X_train_prep.shape so you know how many input features the network needs.
+#
+# TODO: create X_train_prep and X_test_prep, and print the training shape.

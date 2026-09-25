@@ -11,10 +11,20 @@ be more accurate?
 Title: Does a neural network beat a classical model?
 
 Description:
-This is the final project of "Machine Learning and applications", an online course by "LEAP: unLocking carEer potentiAl with comPlex systems, data analytics and machine learning", an Erasmus+ project that aims at reducing the ICT skills gap, in the fields of Data Analytics and Machine Learning, by developing and offering a flexible and personalised learning content for diverse learners.
+This is the final project of "Machine Learning and applications", an online course by
+"LEAP: unLocking carEer potentiAl with comPlex systems, data analytics and machine
+learning", an Erasmus+ project that aims at reducing the ICT skills gap, in the fields
+of Data Analytics and Machine Learning, by developing and offering a flexible and
+personalised learning content for diverse learners.
 For my final project I chose "Option 2: Does a neural network beat a classical model?".
-In this scenario, an agency wants to use survey data to predict which households are likely to be in a higher-income bracket. The end goal is to use the predictions for a benefit or outreach programme. Two kinds of models are on the table: a simple, transparent one whose decisions can be explained to the public, and a more complex neural network that might, or might not, be more accurate.
-My task is to build both models, compare them fairly, and judge whether the added complexity earns its place. The code in Part A is provided, but Part B and Part C will be submited and graded.
+In this scenario, an agency wants to use survey data to predict which households are
+likely to be in a higher-income bracket. The end goal is to use the predictions for a
+benefit or outreach programme. Two kinds of models are on the table: a simple,
+transparent one whose decisions can be explained to the public, and a more complex
+neural network that might, or might not, be more accurate.
+My task is to build both models, compare them fairly, and judge whether the added
+complexity earns its place. The code in Part A is provided, but Part B and Part C will
+be submited and graded.
 
 ## Problem statement: what you tried to predict, classify, cluster, or explain
 
@@ -90,10 +100,39 @@ Yes
 
 ## Method: the main model or models used, including any preprocessing steps
 
-Part A handles the import, the download, the target encoding, the train and test split, and the detection of which columns are numeric and which are categorical.
-Part B
-Part C
-Part D
+### Part A: Set up
+
+The first part was provided for the purpose of this final project.
+It handles the import, the download, the target encoding, the train and test split, and the detection of which columns are numeric and which are categorical.
+
+### Part B: Logistic Regression
+
+As the classical baseline I used a logistic regression. Previously we splited the
+ data set into training data (80%) and test data (20%) using stratification and random_state=42. Also, I sorted columns into a  numeric group and a categorical group. Now I was ready to start processing data.For numeric features process involved using a median imputation and standard scaling, while for categorical features using most-frequent value imputation and one-hot encoding.
+Unknown categories were ignored, and the encoded data was converted to a dense numeric array.
+The preprocessing and logistic-regression model were combined in a scikit-learn
+pipeline. I evaluated the model using five-fold stratified cross-validation with
+F1 as the scoring metric, then evaluated accuracy and F1 on the held-out test
+set.Finally, I draw the confusion matrix for the classical model.
+
+### Part C: Neural Network
+
+I built a dense network with the Keras Sequential API with an input layer, a
+64-unit ReLU,hidden layer, 30% dropout, a 32-unit ReLU hidden layer, and a one-unit
+sigmoid output layer. The sigmoid output produces the probability that income is above
+$50,000.
+
+The network was compiled with the Adam optimizer, binary cross-entropy loss, and
+accuracy as an additional metric. It was trained for up to 20 epochs with a batch size of 128. 
+There was an explicit 10% validation set. Early stopping monitored validation
+loss, used a patience of three epochs, and restored the best model weights.
+
+### Part D: Model Comparison
+
+Both models were evaluated on the same held-out test set. Accuracy and F1 score
+were reported, with F1 treated as the main metric because the higher-income
+class is the minority class. Confusion matrices were also used to compare false
+positives and false negatives. Ethical considerations were addressed. 
 
 ## Results: the most important numbers, plots, and observations
 

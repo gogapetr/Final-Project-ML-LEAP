@@ -1,9 +1,4 @@
 # Part A. Setup and data
-    # This first part was provided for the purpose of this final project. 
-    # It handles the import, the download, the target encoding, the train 
-    # and test split, and the detection of which columns are numeric and 
-    # which are categorical.
-
 
 ## loading everything we will need
     # I start with the imports. 
@@ -166,6 +161,8 @@ plt.show(block=False)
 plt.pause(1)
 plt.close()
 
+# The code above was interfering with running the script, so I made some adjustment.
+
 ## Part C. The neural network
 
 # Before building the neural network, make a prediction.
@@ -291,51 +288,27 @@ print(
 # to an opaque one when decisions affect people.
 
 #### Wrapping up
-#Bring your findings together. Write a short paragraph that answers the central question directly:
 
-# Which model had the higher F1 score, and by how much? Did accuracy lead to the same conclusion?
-    # As expected, F1 scores across both models were similar (LR F1= 0.6552, NN F1= 0,6667) with 
-    # small diferences. Accuracy scores were similar (LR accuracy= 0.8524, NN accuracy= 0.8560).
-    # The neural network slightly outperforms the logistic regression.
-    # The Accuracy and F1 scores of the neural network were less stable than the ones of the 
-    # logistical regression, due to how neural networks works. The differences are insignificant.
+# Overall, the neural network (NN) model slightly outperforms the logistic regression (LR).
+# As expected, F1 scores across both models were similar (LR F1= 0.6552, NN F1= 0,6667) with 
+# small diferences. Accuracy scores were similar ( LR accuracy= 0.8524, NN accuracy= 0.8560).
+# The Accuracy and F1 scores of the NN were less stable than the ones of the LR, 
+# due to how neural networks works. The differences are insignificant.While accuracy 
+# is a very important metric, we should understandthat a single number cannot tell us 
+# the whole story and might mislead us into a false sense of confidence about how well 
+# our model is learning and performing. Accuracy is important in the case of a reasonably 
+# balanced data set, but we have to understand how the model performs on each class 
+# separately. Confusion matrices allow us to examine exactly that, but also compare how 
+# each model performs and where each is struggling. Specifically, False Positives (FP) 
+# and False Negatives (FN) are slightly higher in the LR. 
+# (LR: 962 FP,  NN: 931 FP; LR: 480 FN, NN: 476 FN)
+# Finally, neural network was more successful in identifying the higher-income class
+# (NN: 1407 True Positives vs LR: 1376 True Positives).# The network required a few 
+# more careful steps, due to its more complex nature. On this data set the extra 
+# complexity of this model resulted in slightly better predictions when compared 
+# to the simpler model.# The Adult dataset is large enough for the neural network 
+# to learn some# nonlinear interactions between features such as education, occupation,
+# age, and hours worked. These interactions may explain its slightly higher
+# F1 score, although the one-hot encoded tabular structure also makes
+# logistic regression a strong and competitive baseline.
 
-# Why would accuracy alone be insufficient for this data set?
-    # While accuracy is very important metric, because it counts how many predictions matched
-    # the true label, while being easy to compute and understand. Although, we should understand
-    # that a single number can not tell us the whole story and might mislead us into a false
-    # confidence about how well our model is learning and performing. Accuracy is important in 
-    # the case of a reasonably balanced data set, but we have to understand how the model
-    # performs on each class separately.
-
-# Use the confusion matrices to compare false negatives and false positives.
-    # While looking at the confusion matrices, it is important to compare
-    # how each model performs. False positives (FP) and False negative (FN) are slightly higher 
-    # on the logistical regression.( 962 FP in LR vs 931 FP in NN, 480 FN in LR vs 476 FN in NN)
-  
-# Which model identified the higher-income class more successfully?
-    # Overall, neural network was more successful in identifying the higher-income class
-    # (1407 successes in NN vs 1376 successes in LR).
-
-# The network has far more moving parts than logistic regression. On this data set, 
-# was that extra complexity worth it?
-    # The network required a few more careful steps, due to it's more complex nature. On 
-    # this data set the extra complexity of this model resulted in slightly better 
-    # predictions when compared to the simpler model.  
-
-# Considering the size and structure of this tabular data set, 
-# suggest one reason why one model may have performed better than the other.
-    # The Adult dataset is large enough for the neural network to learn some
-    # nonlinear interactions between features such as education, occupation,
-    # age, and hours worked. These interactions may explain its slightly higher
-    # F1 score, although the one-hot encoded tabular structure also makes
-    # logistic regression a strong and competitive baseline.
-
-
-
-
-# What to hand in: this completed notebook, with both confusion matrices 
-# and the Part D comparison visible in the output, your prediction in Part C, 
-# and your written answer in this cell.
-
-# (Replace this line with your paragraph.)

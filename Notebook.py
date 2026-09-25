@@ -259,3 +259,51 @@ ConfusionMatrixDisplay.from_predictions(
 
 plt.title("Confusion Matrix - Neural Network")
 plt.show()
+
+# Part D. The comparison
+# Now we answer the central question. We have four numbers: the accuracy and 
+# F1 of the classical model, and the accuracy and F1 of the network, all 
+# measured on the same test set. Because the higher-income class is the 
+# minority class, use F1 as your main comparison metric and accuracy as 
+# supporting information. 
+
+print("Model Comparison:")
+print(
+    f"Logistic Regression F1: {clf_f1:.4f}"
+    f"Logistic Regression Accuracy: {clf_acc:.4f}"
+)
+print(
+    f"Neural Network F1: {nn_f1:.4f}"
+    f"Neural Network Accuracy: {nn_acc:.4f}"
+)
+
+#### Ethical considerations
+
+# There are a few ethical risks we have to consider before deploying this model.
+# Firstly, a model that uses characteristics like sex, race, and nationality in 
+# order to predict their income bracket is incredibly sensitive to reproducing 
+# existing inequalities. Ensuring equity and fairness is a priority. A failed 
+# prediction means either someone eligible not benefitting from the programme, 
+# or someone ineligible benefiting. Those# mistakes have great real-world cost 
+# for people, organisations, and gonverment, defeating also the purpose of the 
+# programme and wasting important funds.
+
+# In my opinion, those mentioned considerations make a simpler, more transparent 
+# model is more preferable to an opaque one when decisions affect people.
+
+###3 Wrapping up
+#Bring your findings together. Write a short paragraph that answers the central question directly:
+
+# Which model had the higher F1 score, and by how much? Did accuracy lead to the same conclusion?
+# Why would accuracy alone be insufficient for this data set?
+# Use the confusion matrices to compare false negatives and false positives. 
+# Which model identified the higher-income class more successfully?
+# The network has far more moving parts than logistic regression. 
+# On this data set, was that extra complexity worth it?
+# Considering the size and structure of this tabular data set, suggest one reason why one model
+#  may have performed better than the other.
+# What to hand in: this completed notebook, with both confusion matrices 
+# and the Part D comparison visible in the output, your prediction in Part C, 
+# and your written answer in this cell.
+
+# (Replace this line with your paragraph.)

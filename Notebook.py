@@ -189,13 +189,13 @@ X_test_prep  = preprocess.transform(X_test)        # reuse the same fitting
 
 print("Training shape:", X_train_prep.shape)
 
-# Build a dense network with the Keras Sequential API.
-#   - an Input layer whose shape is the number of columns in X_train_prep
-#     (X_train_prep.shape[1])                                 
-#   - a Dense hidden layer (try 64 units, relu)
-#   - a Dropout layer (0.3) to reduce overfitting
-#   - a second Dense hidden layer (try 32 units, relu)
-#   - a Dense output layer with 1 unit and a sigmoid activation
+# Building a dense network with the Keras Sequential API.
+    # - an Input layer whose shape is the number of columns in X_train_prep
+    #     (X_train_prep.shape[1])                                 
+    # - a Dense hidden layer (try 64 units, relu)
+    # - a Dropout layer (0.3) to reduce overfitting
+    # - a second Dense hidden layer (try 32 units, relu)
+    # - a Dense output layer with 1 unit and a sigmoid activation
 
 net = keras.Sequential([
     layers.Input(shape=(X_train_prep.shape[1],)),
@@ -207,23 +207,53 @@ net = keras.Sequential([
 
 net.summary()
 
-# Compile net with:
-#   optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
-# Then train it with:
-#   validation_split=0.1, an EarlyStopping callback (monitor "val_loss",
-#   patience about 3, restore_best_weights=True), up to about 20 epochs,
-#   and batch_size=128. Store the result in history.
-#
-# TODO: compile net, create the callback, and fit, storing the result in history.
+# Compiling net with:
+    # optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
+# Then training it with:
+    # validation_split=0.1, an EarlyStopping callback (monitor "val_loss",
+    # patience about 3, restore_best_weights=True), up to about 20 epochs,
+    # and batch_size=128. Store the result in history.
 
 net.compile(
     optimizer="adam",
     loss="binary_crossentropy",
     metrics=["accuracy"]
+)
 
+early_stopping = keras.callbacks.EarlyStopping(
+    monitor="val_loss",
+    patience=3,
+    restore_best_weights=True
+)
 
 history = net.fit(
     X_train_prep, 
+    y_train,
+    validation_split=0.1,
+    callbacks=[early_stopping],
     epochs=20,
     batch_size=128
 )
+
+# Producing predictions and evaluating the network.
+# Then computing nn_acc and nn_f1, printing them, and 
+# drawing the confusion matrix.
+
+nn_prob = net.predict(X_test_prep).ravel()     # probabilities
+nn_pred = (nn_prob > 0.5).astype(int)           # threshold at 0.5
+
+nn_acc = round(accuracy_score(y_test, nn_pred), 4)
+nn_f1 = round(f1_score(y_test, nn_pred), 4)
+
+print("Accuracy NN:", nn_acc)
+print("F1 Score NN:", nn_f1)
+
+ConfusionMatrixDisplay.from_predictions(
+    y_test,
+    nn_pred,
+    display_labels=["<=50K", ">50K"],
+    cmap="Blues"
+)
+
+plt.title("Confusion Matrix - Neural Network")
+plt.show()

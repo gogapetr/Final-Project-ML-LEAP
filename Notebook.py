@@ -179,14 +179,51 @@ plt.show()
     # and the underlying task are well suited to a linear model.
 
 
-# A neural network needs a plain numeric array as input, so we apply the 
-# preprocessor to turn the mixed table into numbers. We fit the preprocess
-# or on the training data only, then transform both sets, 
-# so no information leaks from the test set.
+# A neural network needs a plain numeric array as input, so I apply the 
+# preprocessor to turn the mixed table into numbers. I fit the preprocessor 
+# on the training data only, then transform both sets, so no information 
+# leaks from the test set.
 
-# Turn the tables into numeric arrays the network can read.
-#   X_train_prep = preprocess.fit_transform(X_train)   # fit on training data only
-#   X_test_prep  = preprocess.transform(X_test)         # reuse the same fitting
-# Then print X_train_prep.shape so you know how many input features the network needs.
+X_train_prep = preprocess.fit_transform(X_train)   # fit on training data only
+X_test_prep  = preprocess.transform(X_test)        # reuse the same fitting
+
+print("Training shape:", X_train_prep.shape)
+
+# Build a dense network with the Keras Sequential API.
+#   - an Input layer whose shape is the number of columns in X_train_prep
+#     (X_train_prep.shape[1])                                 
+#   - a Dense hidden layer (try 64 units, relu)
+#   - a Dropout layer (0.3) to reduce overfitting
+#   - a second Dense hidden layer (try 32 units, relu)
+#   - a Dense output layer with 1 unit and a sigmoid activation
+
+net = keras.Sequential([
+    layers.Input(shape=(X_train_prep.shape[1],)),
+    layers.Dense(64, activation="relu"),
+    layers.Dropout(0.3),
+    layers.Dense(32, activation="relu"),
+    layers.Dense(1, activation="sigmoid")
+])
+
+net.summary()
+
+# Compile net with:
+#   optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
+# Then train it with:
+#   validation_split=0.1, an EarlyStopping callback (monitor "val_loss",
+#   patience about 3, restore_best_weights=True), up to about 20 epochs,
+#   and batch_size=128. Store the result in history.
 #
-# TODO: create X_train_prep and X_test_prep, and print the training shape.
+# TODO: compile net, create the callback, and fit, storing the result in history.
+
+net.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=["accuracy"]
+
+
+history = net.fit(
+    X_train_prep, 
+    epochs=20,
+    batch_size=128
+)

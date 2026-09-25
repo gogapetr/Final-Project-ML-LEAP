@@ -8,18 +8,18 @@ be more accurate?
 
 ## Project title and short description
 
-Title: ???
+Title: Does a neural network beat a classical model?
 
 Description:
 This is the final project of "Machine Learning and applications", an online course by "LEAP: unLocking carEer potentiAl with comPlex systems, data analytics and machine learning", an Erasmus+ project that aims at reducing the ICT skills gap, in the fields of Data Analytics and Machine Learning, by developing and offering a flexible and personalised learning content for diverse learners.
-For my final project I choose "Option 2: Does a neural network beat a classical model?".
+For my final project I chose "Option 2: Does a neural network beat a classical model?".
 In this scenario, an agency wants to use survey data to predict which households are likely to be in a higher-income bracket. The end goal is to use the predictions for a benefit or outreach programme. Two kinds of models are on the table: a simple, transparent one whose decisions can be explained to the public, and a more complex neural network that might, or might not, be more accurate.
 My task is to build both models, compare them fairly, and judge whether the added complexity earns its place. The code in Part A is provided, but Part B and Part C will be submited and graded.
 
 ## Problem statement: what you tried to predict, classify, cluster, or explain
 
 We are working with a classification problem and we will solve it using two approaches:
-logistic regression (Part B) and a small neural network (Part C).
+logistic regression (Part B) and a small neural network (Part C). Finally, we compare them (Part D)
 Prediction task is to determine whether a person's income is over $50,000 a year.
 
 ## Data set: where it came from and what the main variables or inputs represent
@@ -90,7 +90,10 @@ Yes
 
 ## Method: the main model or models used, including any preprocessing steps
 
-Part A: the import, the download, the target encoding, the train and test split, and the detection of which columns are numeric and which are categorical
+Part A handles the import, the download, the target encoding, the train and test split, and the detection of which columns are numeric and which are categorical.
+Part B
+Part C
+Part D
 
 ## Results: the most important numbers, plots, and observations
 
@@ -102,4 +105,4 @@ Interpreting...
 
 ## Reflection: what you would improve with more time
 
-Reflecting
+Improving F1 and accuracy scores. The scores now are not acceptable to deploy either model

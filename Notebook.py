@@ -269,11 +269,11 @@ plt.show()
 
 print("Model Comparison:")
 print(
-    f"Logistic Regression F1: {clf_f1:.4f}"
+    f"Logistic Regression F1: {clf_f1:.4f}" 
     f"Logistic Regression Accuracy: {clf_acc:.4f}"
 )
 print(
-    f"Neural Network F1: {nn_f1:.4f}"
+    f"Neural Network F1: {nn_f1:.4f}" 
     f"Neural Network Accuracy: {nn_acc:.4f}"
 )
 
@@ -286,22 +286,54 @@ print(
 # prediction means either someone eligible not benefitting from the programme, 
 # or someone ineligible benefiting. Those# mistakes have great real-world cost 
 # for people, organisations, and gonverment, defeating also the purpose of the 
-# programme and wasting important funds.
+# programme and wasting important funds. In my opinion, those mentioned 
+# considerations make a simpler, more transparent model is more preferable 
+# to an opaque one when decisions affect people.
 
-# In my opinion, those mentioned considerations make a simpler, more transparent 
-# model is more preferable to an opaque one when decisions affect people.
-
-###3 Wrapping up
+#### Wrapping up
 #Bring your findings together. Write a short paragraph that answers the central question directly:
 
 # Which model had the higher F1 score, and by how much? Did accuracy lead to the same conclusion?
+    # As expected, F1 scores across both models were similar (LR F1= 0.6552, NN F1= 0,6667) with 
+    # small diferences. Accuracy scores were similar (LR accuracy= 0.8524, NN accuracy= 0.8560).
+    # The neural network slightly outperforms the logistic regression.
+    # The Accuracy and F1 scores of the neural network were less stable than the ones of the 
+    # logistical regression, due to how neural networks works. The differences are insignificant.
+
 # Why would accuracy alone be insufficient for this data set?
-# Use the confusion matrices to compare false negatives and false positives. 
+    # While accuracy is very important metric, because it counts how many predictions matched
+    # the true label, while being easy to compute and understand. Although, we should understand
+    # that a single number can not tell us the whole story and might mislead us into a false
+    # confidence about how well our model is learning and performing. Accuracy is important in 
+    # the case of a reasonably balanced data set, but we have to understand how the model
+    # performs on each class separately.
+
+# Use the confusion matrices to compare false negatives and false positives.
+    # While looking at the confusion matrices, it is important to compare
+    # how each model performs. False positives (FP) and False negative (FN) are slightly higher 
+    # on the logistical regression.( 962 FP in LR vs 931 FP in NN, 480 FN in LR vs 476 FN in NN)
+  
 # Which model identified the higher-income class more successfully?
-# The network has far more moving parts than logistic regression. 
-# On this data set, was that extra complexity worth it?
-# Considering the size and structure of this tabular data set, suggest one reason why one model
-#  may have performed better than the other.
+    # Overall, neural network was more successful in identifying the higher-income class
+    # (1407 successes in NN vs 1376 successes in LR).
+
+# The network has far more moving parts than logistic regression. On this data set, 
+# was that extra complexity worth it?
+    # The network required a few more careful steps, due to it's more complex nature. On 
+    # this data set the extra complexity of this model resulted in slightly better 
+    # predictions when compared to the simpler model.  
+
+# Considering the size and structure of this tabular data set, 
+# suggest one reason why one model may have performed better than the other.
+    # The Adult dataset is large enough for the neural network to learn some
+    # nonlinear interactions between features such as education, occupation,
+    # age, and hours worked. These interactions may explain its slightly higher
+    # F1 score, although the one-hot encoded tabular structure also makes
+    # logistic regression a strong and competitive baseline.
+
+
+
+
 # What to hand in: this completed notebook, with both confusion matrices 
 # and the Part D comparison visible in the output, your prediction in Part C, 
 # and your written answer in this cell.

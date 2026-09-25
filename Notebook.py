@@ -279,29 +279,33 @@ print(
 # There are a few ethical risks we have to consider before deploying this model.
 # Firstly, a model that uses characteristics like sex, race, and nationality in 
 # order to predict their income bracket is incredibly sensitive to reproducing 
-# existing inequalities. Ensuring equity and fairness is a priority. A failed 
-# prediction means either someone eligible not benefitting from the programme, 
-# or someone ineligible benefiting. Those# mistakes have great real-world cost 
-# for people, organisations, and gonverment, defeating also the purpose of the 
-# programme and wasting important funds. In my opinion, those mentioned 
-# considerations make a simpler, more transparent model is more preferable 
-# to an opaque one when decisions affect people.
+# existing inequalities. Ensuring equity and fairness is a priority. For public 
+# benefit programmes, a false negative may exclude someone who needs support, 
+# while a false positive may waste resources.Those mistakes have great real-world
+# cost for people, organisations, and gonverment, defeating also the purpose of the 
+# programme and wasting funds. In my opinion, those mentioned considerations 
+# make a simpler, more transparent model is more preferable to an opaque one 
+# when decisions affect people.
 
 #### Wrapping up
 
 # Overall, the neural network (NN) model slightly outperforms the logistic regression (LR).
 # As expected, F1 scores across both models were similar (LR F1= 0.6552, NN F1= 0,6667) with 
-# small diferences. Accuracy scores were similar ( LR accuracy= 0.8524, NN accuracy= 0.8560).
+# small diferences. Accuracy scores were similar (LR accuracy= 0.8524, NN accuracy= 0.8560).
 # The Accuracy and F1 scores of the NN were less stable than the ones of the LR, 
-# due to how neural networks works. The differences are insignificant.While accuracy 
-# is a very important metric, we should understandthat a single number cannot tell us 
+# due to how neural networks works. The differences are insignificant. While accuracy 
+# is a very important metric, we should emphasise that a single number cannot tell us 
 # the whole story and might mislead us into a false sense of confidence about how well 
-# our model is learning and performing. Accuracy is important in the case of a reasonably 
-# balanced data set, but we have to understand how the model performs on each class 
-# separately. Confusion matrices allow us to examine exactly that, but also compare how 
-# each model performs and where each is struggling. Specifically, False Positives (FP) 
-# and False Negatives (FN) are slightly higher in the LR. 
+# our model is learning and performing. Firstly, accuracy is important in the case of a reasonably 
+# balanced data set; this dataset is imbalanced. Secondly, F1 is the more informative metric,
+# because the higher-income class(>50K) is the minority class.
+
+# We need to understand how the model performs on each class separately. Confusion matrices
+# allow us to examine exactly that, but also compare how each model performs and where each 
+# is struggling. Specifically, both False Positives (FP) and False Negatives (FN) are
+# slightly higher in the LR. 
 # (LR: 962 FP,  NN: 931 FP; LR: 480 FN, NN: 476 FN)
+
 # Finally, neural network was more successful in identifying the higher-income class
 # (NN: 1407 True Positives vs LR: 1376 True Positives).# The network required a few 
 # more careful steps, due to its more complex nature. On this data set the extra 

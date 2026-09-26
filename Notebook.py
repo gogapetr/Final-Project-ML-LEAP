@@ -1,10 +1,8 @@
-# Part A. Setup and data
+# Part A. Setup and data.
 
-## loading everything we will need
+## Loading everything we will need.
     # I start with the imports. 
-    # This cell loads everything the notebook needs.
     
-
 import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,14 +17,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (accuracy_score, f1_score,
                              confusion_matrix, ConfusionMatrixDisplay)
                             
-
 import keras
 from keras import layers
 
-## loading the data
+## Loading the data.
     # I download the Adult data set from OpenML. The features arrive in `X` as a table, 
-    # and the target in `y` as text, either `>50K` or `<=50K`. The download runs once 
-    # and may take a moment.
+    # and the target in `y` as text, either `>50K` or `<=50K`. 
 
 X, y = fetch_openml("adult", version=2, as_frame=True, return_X_y=True)
 
@@ -34,7 +30,7 @@ print("Rows and columns:", X.shape)
 print("Target values:", y.value_counts().to_dict())
 print(X.head())
 
-## encoding the target
+## Encoding the target.
     # The target is text with two values. I convert it to numbers so both models
     # can use it. LabelEncoder maps the two classes to 0 and 1 in alphabetical 
     # order, so <=50K becomes 0 and >50K becomes 1. The higher income class is 
@@ -43,11 +39,10 @@ print(X.head())
 y = LabelEncoder().fit_transform(y)
 print("Positive rate (share earning >50K):", round(y.mean(), 3))
 
-## train and test split
+## Train and test split.
     # I split the data into a training set and a test set before doing anything 
     # else, and I keep the class balance with stratify. Both models are trained
-    # on the training set and judged on the same held-back test set, so the 
-    # comparison is fair.
+    # on the training set and judged on the same held-back test set.
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y)
@@ -55,7 +50,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 print("Training rows:", X_train.shape[0])
 print("Test rows:    ", X_test.shape[0])   
 
-##  numeric and categorical columns
+## numeric and categorical columns.
     # These two kinds of feature need different preprocessing, so I sort the 
     # columns into a numeric group and a categorical group. 
     # I detect them from the column data types.
@@ -66,32 +61,35 @@ categorical_features = X_train.select_dtypes(exclude="number").columns.tolist()
 print("Numeric features:", numeric_features)
 print("Categorical features:", categorical_features)
 
-# Part B. The classical mode.
+# Part B. The classical model.
     
 # Preprocessor with a ColumnTransformer.
 
-# For the NUMERIC columns, I chain two steps in a Pipeline:
-    #- SimpleImputer to fill missing values (strategy="median")
-    #- StandardScaler to put the features on the same scale
+# For the NUMERIC columns, 
+    # I chain two steps in a Pipeline:
+    #   -SimpleImputer to fill missing values (strategy="median")
+    #   -StandardScaler to put the features on the same scale.
 
 numeric_pipe = Pipeline([
     ("imputer", SimpleImputer(strategy="median")),
     ("scaler", StandardScaler()),
 ])
 
-# For the CATEGORICAL columns, I chain two steps in a Pipeline:
-    #- SimpleImputer to fill missing values (strategy="most_frequent")
-    #- OneHotEncoder to turn categories into numbers. Set
+# For the CATEGORICAL columns, 
+    # I chain two steps in a Pipeline:
+    #   -SimpleImputer to fill missing values (strategy="most_frequent")
+    #   -OneHotEncoder to turn categories into numbers. 
+    # I set:
     #   -handle_unknown="ignore", so unseen categories in the test set do not error
     #   -sparse_output=False, so the result is a plain array the network can use 
-    #    later
+    #    later.
 
 categorical_pipe = Pipeline([
     ("imputer", SimpleImputer(strategy="most_frequent")),
     ("onehot", OneHotEncoder(handle_unknown="ignore", sparse_output=False))
 ])
 
-# Then combine the two with a ColumnTransformer, applying each pipeline
+# Then I combine the two with a ColumnTransformer, applying each pipeline
 # to its own list of columns (numeric_features and categorical_features).
 
 preprocess = ColumnTransformer(
@@ -113,7 +111,7 @@ pipe = Pipeline([
 print(pipe)
 
 # I run a 5-fold cross-validation on the TRAINING data, scoring by F1 and
-# use StratifiedKFold(n_splits=5, shuffle=True, random_state=42).
+# using StratifiedKFold(n_splits=5, shuffle=True, random_state=42).
 
 cv = StratifiedKFold(
     n_splits=5, 
@@ -133,8 +131,8 @@ print("F1 Score:", cv_scores)
 print("Mean F1:", cv_scores.mean().round(4))
 print("Standard Deviation:", cv_scores.std().round(4))
 
-# Fitting the classifier(clf) on the training data, then predict on 
-# the test data. I store the results so I can compare them later.
+# I fit the classifier(clf) on the training data, then predict on the test data.
+# I store the results so I can compare them later. 
 # Then I draw the confusion matrix for the classical model.
 
 pipe.fit(
@@ -161,9 +159,10 @@ plt.show(block=False)
 plt.pause(1)
 plt.close()
 
-# The code above was interfering with running the script, so I made some adjustment.
+# The code above was necessary because it was interfering when running 
+# the script from top to bottom.
 
-## Part C. The neural network
+## Part C. The neural network.
 
 # Before building the neural network, make a prediction.
     # Do you expect its F1 score to be higher than, lower than, 
@@ -188,13 +187,13 @@ X_test_prep  = preprocess.transform(X_test)        # reuse the same fitting
 
 print("Training shape:", X_train_prep.shape)
 
-# Building a dense network with the Keras Sequential API.
-    # - an Input layer whose shape is the number of columns in X_train_prep
-    #     (X_train_prep.shape[1])                                 
-    # - a Dense hidden layer (try 64 units, relu)
-    # - a Dropout layer (0.3) to reduce overfitting
-    # - a second Dense hidden layer (try 32 units, relu)
-    # - a Dense output layer with 1 unit and a sigmoid activation
+# I build a dense network with the Keras Sequential API.
+    #   -an Input layer whose shape is the number of columns in X_train_prep
+    #  (X_train_prep.shape[1])                                 
+    #   -a Dense hidden layer (try 64 units, relu)
+    #   -a Dropout layer (0.3) to reduce overfitting
+    #   -a second Dense hidden layer (try 32 units, relu)
+    #   -a Dense output layer with 1 unit and a sigmoid activation
 
 net = keras.Sequential([
     layers.Input(shape=(X_train_prep.shape[1],)),
@@ -206,12 +205,17 @@ net = keras.Sequential([
 
 net.summary()
 
-# Compiling net with:
-    # optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"]
-# Then training it with:
-    # an explicit 10% validation set, an EarlyStopping callback (monitor "val_loss",
-    # patience about 3, restore_best_weights=True), up to about 20 epochs,
-    # and batch_size=128. Store the result in history.
+# I compile net with:
+    #   -optimizer="adam", 
+    #   -loss="binary_crossentropy", 
+    #   -metrics=["accuracy"]
+# Then I train it with:
+    #   -an explicit 10% validation set, 
+    #   -an EarlyStopping callback (monitor "val_loss",
+    #   -patience about 3, restore_best_weights=True), 
+    #   -up to about 20 epochs, and 
+    #   -batch_size=128. 
+# I store the result in history.
 
 net.compile(
     optimizer="adam",
@@ -234,9 +238,8 @@ history = net.fit(
     batch_size=128
 )
 
-# Producing predictions and evaluating the network.
-# Then computing nn_acc and nn_f1, printing them, and 
-# drawing the confusion matrix.
+# Now I produce predictions and evaluate the network.
+# Then I compute nn_acc and nn_f1, printing them, and draw the confusion matrix.
 
 nn_prob = net.predict(X_test_prep).ravel()     # probabilities
 nn_pred = (nn_prob > 0.5).astype(int)           # threshold at 0.5
@@ -257,12 +260,11 @@ ConfusionMatrixDisplay.from_predictions(
 plt.title("Confusion Matrix - Neural Network")
 plt.show()
 
-# Part D. The comparison
+# Part D. The comparison.
+
 # Now we answer the central question. We have four numbers: the accuracy and 
 # F1 of the classical model, and the accuracy and F1 of the network, all 
-# measured on the same test set. Because the higher-income class is the 
-# minority class, use F1 as your main comparison metric and accuracy as 
-# supporting information. 
+# measured on the same test set. 
 
 print("Model Comparison:")
 print(
@@ -277,42 +279,47 @@ print(
 #### Ethical considerations
 
 # There are a few ethical risks we have to consider before deploying this model.
-# Firstly, a model that uses characteristics like sex, race, and nationality in 
-# order to predict their income bracket is incredibly sensitive to reproducing 
+# Firstly, a model that uses characteristics like sex, race, and country of origin
+# in order to predict their income bracket is incredibly sensitive to reproducing 
 # existing inequalities. Ensuring equity and fairness is a priority. For public 
 # benefit programmes, a false negative may exclude someone who needs support, 
-# while a false positive may waste resources.Those mistakes have great real-world
-# cost for people, organisations, and gonverment, defeating also the purpose of the 
-# programme and wasting funds. In my opinion, those mentioned considerations 
-# make a simpler, more transparent model is more preferable to an opaque one 
-# when decisions affect people.
+# while a false positive may waste resources. Those mistakes have great real-world
+# cost for people, agencies, and government, defeating also the purpose of the 
+# programme and wasting funds. In my view, such considerations make a simpler,
+# more transparent model more preferable to an opaque one when decisions affect people.
 
 #### Wrapping up
 
-# Overall, the neural network (NN) model slightly outperforms the logistic regression (LR).
-# As expected, F1 scores across both models were similar (LR F1= 0.6552, NN F1= 0,6667) with 
+# Overall, the neural network (NN) model outperforms the logistic regression (LR).
+# As expected, F1 scores across both models were similar (LR F1= 0.6552, NN F1= 0.6667) with 
 # small diferences. Accuracy scores were similar (LR accuracy= 0.8524, NN accuracy= 0.8560).
-# The Accuracy and F1 scores of the NN were less stable than the ones of the LR, 
-# due to how neural networks works. The differences are insignificant. While accuracy 
-# is a very important metric, we should emphasise that a single number cannot tell us 
-# the whole story and might mislead us into a false sense of confidence about how well 
-# our model is learning and performing. Firstly, accuracy is important in the case of a reasonably 
-# balanced data set; this dataset is imbalanced. Secondly, F1 is the more informative metric,
-# because the higher-income class(>50K) is the minority class.
+# The Accuracy and F1 scores of the NN are less stable than the ones of the LR, 
+# because their results can depend on random initialization and training order. 
+# Repeated runs are needed to demonstrate this.
 
-# We need to understand how the model performs on each class separately. Confusion matrices
-# allow us to examine exactly that, but also compare how each model performs and where each 
-# is struggling. Specifically, both False Positives (FP) and False Negatives (FN) are
-# slightly higher in the LR. 
+# While accuracy is a very important metric, we should emphasise that a single number
+# cannot tell us the whole story and might mislead us into a false sense of confidence
+# about how well our model is learning and performing. Firstly, accuracy is important 
+# in the case of a reasonably balanced data set; this dataset is imbalanced. The 
+# majority class has more examples, it contributes more to the overall loss. The model
+# might not be performing well on the minority class. F1 is the more informative metric, 
+# because it balances precision and recall for the positive, minority class (>50K).
+# However, F1 does not measure fairness across demographic groups. F1 is your main 
+# comparison metric and accuracy as supporting information. 
+
+# We need to understand how the model performs on each class separately. Confusion
+# matrices allow us to examine exactly that, but also compare how each model performs
+# and where each model is struggling. Both False Positives(FP) and False Negatives(FN)
+# are slightly higher in the LR, but both make similar mistakes.
 # (LR: 962 FP,  NN: 931 FP; LR: 480 FN, NN: 476 FN)
 
-# Finally, neural network was more successful in identifying the higher-income class
-# (NN: 1407 True Positives vs LR: 1376 True Positives).# The network required a few 
-# more careful steps, due to its more complex nature. On this data set the extra 
-# complexity of this model resulted in slightly better predictions when compared 
-# to the simpler model.# The Adult dataset is large enough for the neural network 
-# to learn some# nonlinear interactions between features such as education, occupation,
-# age, and hours worked. These interactions may explain its slightly higher
-# F1 score, although the one-hot encoded tabular structure also makes
+# Finally, the neural network was more successful in identifying the higher-income class
+# (NN: 1407 True Positives vs LR: 1376 True Positives). The network required a few 
+# more careful steps, due to its greater complexity. On this data set and setting,
+# the extra complexity of this model resulted in slightly better predictions when 
+# compared to the simpler model. The Adult dataset is large enough for the neural 
+# network to learn some nonlinear interactions between features such as education, 
+# occupation, age, and hours worked. These interactions may explain its slightly 
+# higher F1 score, although the one-hot encoded tabular structure also makes
 # logistic regression a strong and competitive baseline.
 

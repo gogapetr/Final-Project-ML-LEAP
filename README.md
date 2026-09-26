@@ -100,7 +100,7 @@ Yes
 
 ## Method: the main model or models used, including any preprocessing steps
 
-### Part A: Set up
+### Part A: Set up and Data
 
 The first part was provided for the purpose of this final project.
 It handles the import, the download, the target encoding, the train and test split, and the detection of which columns are numeric and which are categorical.
@@ -130,7 +130,7 @@ accuracy as an additional metric. It was trained for up to 20 epochs with a batc
 There was an explicit 10% validation set. Early stopping monitored validation
 loss, used a patience of three epochs, and restored the best model weights.
 
-### Part D: Model Comparison
+### Part D: The Comparison
 
 Both models were evaluated on the same held-out test set. Accuracy and F1 score
 were reported, with F1 treated as the main metric because the higher-income
@@ -139,7 +139,7 @@ positives and false negatives. Ethical considerations were addressed.
 
 ## Results: the most important numbers, plots, and observations
 
-Main Results:
+### Main Results:
 
 Logistic Regression: Accuracy = 0.8524 and F1 score = 0.6552
 Neural Network: Accuracy = 0.8560 and F1 score = 0.6667

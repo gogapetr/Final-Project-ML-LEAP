@@ -176,7 +176,6 @@ plt.close()
     # but its improvement is unlikely to be large because the input representation
     # and the underlying task are well suited to a linear model.
 
-
 # A neural network needs a plain numeric array as input, so I apply the 
 # preprocessor to turn the mixed table into numbers. I fit the preprocessor 
 # on the training data only, then transform both sets, so no information 

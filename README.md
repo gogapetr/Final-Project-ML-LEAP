@@ -146,12 +146,12 @@ compare false positives and false negatives. Ethical considerations were address
 
 ## Results: the most important numbers, plots, and observations
 
-Logistic Regression: Accuracy = 0.8524 and F1 score = 0.6552
-Neural Network: Accuracy = 0.8560 and F1 score = 0.6667
+Logistic Regression: Accuracy = 0.8524 and F1 score = 0.6562
+Neural Network: Accuracy = 0.8561 and F1 score = 0.6744
 
 On the held-out test, the logistic regression achieved an accuracy score of 0.8524 and a F1
-score of 0.6552. The neural network achieved an accuracy score of 0.8560 and a F1score of
-0.6667. F1 is the more informative metric than accuracy, because the higher-income class(50K)
+score of 0.6552. The neural network achieved an accuracy score of 0.8561 and a F1 score of
+0.6744. F1 is the more informative metric than accuracy, because the higher-income class(50K)
 is the minority class.
 
 Overall, the neural network performs slightly higher on this test set. The neural network is a
